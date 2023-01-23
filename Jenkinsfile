@@ -1,14 +1,17 @@
 pipeline {
-  agent any
-  tools { 
+    agent any
+    parameters {
+            string(defaultValue: "", description: 'SONARCLOUDKEY', name: 'SONARCLOUDKEY')
+    }
+    tools {
         maven 'Maven_3_5_2'  
     }
-   stages{
+    stages{
     stage('CompileandRunSonarAnalysis') {
-            steps {
-		sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=buggywebapp10 -Dsonar.organization=sandjaie10 \
-		-Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${env.SONARCLOUDKEY}'
-			}
-        } 
-  }
+        steps {
+            sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=buggywebapp10 -Dsonar.organization=sandjaie10 \
+            -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONARCLOUDKEY}'
+            }
+        }
+    }
 }
